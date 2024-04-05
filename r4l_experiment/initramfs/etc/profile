@@ -1,0 +1,2 @@
+cat << EOF > etc/profile
+alias ll='ls -l'

@@ -1,0 +1,1 @@
+cmd_/home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/001_hello_world/modules.order := {   echo /home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/001_hello_world/hello_world.ko; :; } > /home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/001_hello_world/modules.order

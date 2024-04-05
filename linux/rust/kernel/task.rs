@@ -68,6 +68,8 @@ unsafe impl Sync for Task {}
 /// The type of process identifiers (PIDs).
 type Pid = bindings::pid_t;
 
+type Comm = [core::ffi::c_char; 16usize];
+
 impl Task {
     /// Returns a task reference for the currently executing task/thread.
     pub fn current<'a>() -> TaskRef<'a> {
@@ -98,6 +100,12 @@ impl Task {
     pub fn pid(&self) -> Pid {
         // SAFETY: By the type invariant, we know that `self.0` is valid.
         unsafe { core::ptr::addr_of!((*self.0.get()).pid).read() }
+    }
+
+    /// Returns the comm of the given task.
+    pub fn comm(&self) -> Comm {
+        // SAFETY: By the type invariant, we know that `self.0` is valid.
+        unsafe { core::ptr::addr_of!((*self.0.get()).comm).read() }
     }
 
     /// Determines whether the given task has pending signals.

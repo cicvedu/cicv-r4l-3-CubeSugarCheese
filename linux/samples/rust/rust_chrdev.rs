@@ -2,7 +2,7 @@
 
 //! Rust character device sample.
 
-use core::result::Result::Err;
+use core::result::Result::{Err, Ok};
 
 use kernel::prelude::*;
 use kernel::sync::Mutex;
@@ -24,7 +24,7 @@ static GLOBALMEM_BUF: Mutex<[u8;GLOBALMEM_SIZE]> = unsafe {
 
 struct RustFile {
     #[allow(dead_code)]
-    inner: &'static Mutex<[u8;GLOBALMEM_SIZE]>,
+    inner: &'static Mutex<[u8;GLOBALMEM_SIZE]>
 }
 
 #[vtable]
@@ -39,12 +39,31 @@ impl file::Operations for RustFile {
         )
     }
 
-    fn write(_this: &Self,_file: &file::File,_reader: &mut impl kernel::io_buffer::IoBufferReader,_offset:u64,) -> Result<usize> {
-        Err(EPERM)
+    fn write(this: &Self,_file: &file::File,reader: &mut impl kernel::io_buffer::IoBufferReader,offset:u64) -> Result<usize> {
+        let mut inner = this.inner.lock();
+        let mut cur = offset as usize;
+        let mut count = 0;
+        while let Ok(data) = reader.read::<u8>() {
+            if cur < GLOBALMEM_SIZE {
+                inner[cur] = data;
+                count += 1;
+                cur += 1;
+            } 
+            else {
+                break;
+            }
+        }
+        Ok(count)
     }
 
-    fn read(_this: &Self,_file: &file::File,_writer: &mut impl kernel::io_buffer::IoBufferWriter,_offset:u64,) -> Result<usize> {
-        Err(EPERM)
+    fn read(this: &Self,_file: &file::File,writer: &mut impl kernel::io_buffer::IoBufferWriter,offset:u64) -> Result<usize> {
+        let inner = this.inner.lock();
+        if writer.is_empty() || offset != 0 {
+            return Ok(0);
+        }
+
+        writer.write_slice(&*inner)?;
+        Ok(inner.len())
     }
 }
 

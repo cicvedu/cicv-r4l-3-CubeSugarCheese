@@ -5,6 +5,7 @@
 #![allow(unused)]
 
 use core::iter::Iterator;
+use core::ops::Deref;
 use core::sync::atomic::AtomicPtr;
 
 use kernel::pci::Resource;
@@ -466,7 +467,13 @@ impl pci::Driver for E1000Drv {
         )?)
     }
 
-    fn remove(data: &Self::Data) {
+    fn remove(dev: &mut pci::Device, data: &Self::Data) {
+        pr_info!("Disable Device");
+        dev.disable_device();
+
+        pr_info!("Release regions");
+        dev.release_regions();
+
         pr_info!("Rust for linux e1000 driver demo (remove)\n");
     }
 }

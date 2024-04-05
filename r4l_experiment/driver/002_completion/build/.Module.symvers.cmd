@@ -1,0 +1,1 @@
+cmd_/home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/002_completion/build/Module.symvers :=  sed 's/ko$$/o/'  /home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/002_completion/build/modules.order | scripts/mod/modpost      -o /home/cube/cicv-r4l-3-CubeSugarCheese/r4l_experiment/driver/002_completion/build/Module.symvers -e -i Module.symvers -T - 

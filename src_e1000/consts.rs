@@ -37,10 +37,10 @@ pub(crate) const E1000_TIPG:usize = 0x00410;	/* TX Inter-packet gap -RW */
 pub(crate) const E1000_RDTR:usize = 0x02820;	/* RX Delay Timer - RW */
 pub(crate) const E1000_RADV:usize = 0x0282C;	/* RX Interrupt Absolute Delay Timer - RW */
 
-// pub(crate) const E1000_:usize = ;	/*  */
-// pub(crate) const E1000_:usize = ;	/*  */
-// pub(crate) const E1000_:usize = ;	/*  */
-// pub(crate) const E1000_:usize = ;	/*  */
+pub(crate) const E1000_TESTING:usize = 0x0;	/*  */
+pub(crate) const E1000_RESETTING:usize = 0x1;	/*  */
+pub(crate) const E1000_DOWN:usize = 0x2;	/*  */
+pub(crate) const E1000_DISABLED:usize = 0x3;	/*  */
 // pub(crate) const E1000_:usize = ;	/*  */
 // pub(crate) const E1000_:usize = ;	/*  */
 // pub(crate) const E1000_:usize = ;	/*  */

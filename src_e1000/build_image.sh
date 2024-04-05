@@ -11,7 +11,7 @@ if [ ! -d $rootfs ]; then
     mkdir $rootfs
 fi
 cp $busybox_folder/_install/*  $rootfs/ -rf
-cp $work_dir/r4l_e1000_demo.ko $work_dir/$rootfs/
+cp $work_dir/build/r4l_e1000_demo.ko $work_dir/$rootfs/
 cd $rootfs
 if [ ! -d proc ] && [ ! -d sys ] && [ ! -d dev ] && [ ! -d etc/init.d ]; then
     mkdir proc sys dev etc etc/init.d
@@ -24,7 +24,7 @@ echo "#!/bin/sh" > etc/init.d/rcS
 echo "mount -t proc none /proc" >> etc/init.d/rcS
 echo "mount -t sysfs none /sys" >> etc/init.d/rcS
 echo "/sbin/mdev -s" >> etc/init.d/rcS
-echo "mknod /dev/cicv c 248 0" >> etc/init.d/rcS
+echo "mknod /dev/cicv c 248 0" >> etc/init.d/rcS # 创建 cicv 设备文件，指定为字符设备，主设备号为 248，次设备号为 0
 chmod +x etc/init.d/rcS
 if [ -f $rootfs_img ]; then
     rm $rootfs_img
